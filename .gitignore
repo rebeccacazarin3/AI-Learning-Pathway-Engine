@@ -1,0 +1,18 @@
+
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Raw source data
+data/raw/
+
+# Local notes / scratch files
+Need Codes.txt
+
+# OS files
+.DS_Store
+Thumbs.db

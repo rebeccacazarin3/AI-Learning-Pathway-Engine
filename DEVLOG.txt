@@ -1,0 +1,199 @@
+# Development Log
+
+## Project: AI Learning Pathway Engine
+
+---
+Proposed Phases
+
+Phase 1 — Data Discovery & Validation          ← completed
+Phase 2 — Backend Architecture & Data Models
+Phase 3 — Occupation Profiling Engine
+Phase 4 — User Skill Modeling
+Phase 5 — Gap Analysis Engine
+Phase 6 — Recommendation / Prioritization Logic
+Phase 7 — API / Application Layer
+Phase 8 — Professional UI & Visualization
+Phase 9 — Testing, Evaluation & Deployment
+
+---
+# Phase 1 — O*NET Data Discovery and Evidence Validation
+
+### Objective
+
+Evaluate whether O*NET occupational data can support an automated learning-pathway engine capable of identifying occupational requirements and eventually comparing them against a user's existing skills.
+
+---
+
+## Initial Data Exploration
+
+The first stage focused on understanding the structure and relationships within the O*NET datasets.
+
+### Occupation Dataset
+
+The occupation dataset contains:
+
+- 1,016 occupations
+- O*NET-SOC Code
+- Occupation Title
+- Description
+
+The O*NET-SOC Code was selected as the primary identifier for connecting occupational datasets.
+
+---
+
+## Task Dataset
+
+The task dataset contains:
+
+- 18,838 task records
+- Task IDs
+- Task descriptions
+- Task types
+- Occupation identifiers
+
+Relationship validation showed:
+
+- 1,016 unique occupations in the occupation dataset
+- 923 occupations with associated tasks
+- 0 task occupation codes missing from the occupation dataset
+
+This confirmed that all task records could be linked to a valid occupation.
+
+---
+
+## Software Developers Test Case
+
+The occupation:
+
+- Software Developers
+- O*NET-SOC Code: 15-1252.00
+
+was selected as the initial test case.
+
+The occupation contained:
+
+- 17 tasks
+
+---
+
+## Task → Detailed Work Activity Mapping
+
+Task-to-DWA data was added to investigate whether occupational tasks could be connected to more granular work activities.
+
+For Software Developers:
+
+- 17 total tasks
+- 17 tasks with at least one DWA mapping
+- 0 tasks without a DWA mapping
+- 18 unique Detailed Work Activities
+
+This provided complete task-to-DWA coverage for the Software Developers test case.
+
+Several DWAs were connected to multiple tasks, indicating convergence between different occupational responsibilities.
+
+---
+
+## Skills Evidence
+
+### Essential Skills
+
+For Software Developers:
+
+- 20 skill measurement records
+- 10 unique skills
+
+Each skill contains two measurements:
+
+- Importance
+- Level
+
+An important modeling decision was identified:
+
+**Importance and Level should not be directly compared because they represent different measurements.**
+
+For example:
+
+- Critical Thinking had the highest Importance score.
+- Reading Comprehension had the highest Level score.
+
+Future scoring logic will need to preserve this distinction.
+
+---
+
+### Transferable Skills
+
+For Software Developers:
+
+- 50 measurement records
+- 25 unique skills
+
+The highest Importance scores included:
+
+1. Programming — 4.00
+2. Judgment and Decision Making — 3.62
+3. Systems Analysis — 3.50
+
+This reinforced that the Software Developers occupation involves more than programming alone and includes decision-making and systems-level analysis.
+
+---
+
+## Technology Evidence
+
+The Software Skills dataset was examined as a source of occupation-associated technologies.
+
+For Software Developers:
+
+- 430 technology records
+- 67 software categories
+- 430 unique workplace examples
+
+The dataset includes:
+
+- Broad technology categories
+- Specific workplace examples
+- Hot Technology signals
+- In Demand signals
+
+Initial inspection revealed that raw technology associations are too broad to directly generate learning recommendations.
+
+For example, an occupation may be associated with hundreds of technologies, including technologies that are outdated, specialized, or only relevant to particular career paths.
+
+---
+
+# Key Engineering Decision
+
+Raw occupational data will not be used directly as a learning curriculum.
+
+The future engine will require additional transformation layers:
+
+O*NET Evidence
+↓
+Occupation Profile
+↓
+Skill / Technology Normalization
+↓
+Specialization or Career Direction
+↓
+User Gap Analysis
+↓
+Prioritization
+↓
+Personalized Learning Pathway
+
+---
+
+# Current Status
+
+Completed:
+
+- Raw dataset ingestion
+- Dataset inspection
+- Occupation-to-task validation
+- Task-to-DWA validation
+- Essential skill inspection
+- Transferable skill inspection
+- Technology dataset inspection
+
+Next:
+
+Design backend data models and define the first version of the Gap Analysis Engine.
