@@ -196,4 +196,90 @@ Completed:
 
 Next:
 
-Design backend data models and define the first version of the Gap Analysis Engine.
+Design backend data models. 
+
+### Phase 2
+Date: August 31 - September 8, 2026
+
+Milestone: Building the Occupation Profile Service
+
+I continued building the service layer for the AI Learning Pathway Engine.
+The goal of this stage is to take the separate O*NET datasets and make it possible to retrieve a complete profile for a single occupation.
+
+What I worked on:
+
+1. Occupation Service
+I built service functions that retrieve O*NET data by occupation code:
+
+- get_occupation_by_code()
+- get_tasks_by_code()
+- get_dwas_by_code()
+- get_essential_skills_by_code()
+- get_transferable_skills_by_code()
+
+I tested these functions using Software Developers (15-1252.00).
+The functions successfully retrieve the corresponding records from the different O*NET datasets.
+
+2. Occupation Profile
+I created get_occupation_profile(), which combines the individual service functions into a single dictionary.
+The resulting structure is:
+
+{
+    "occupation": DataFrame,
+    "tasks": DataFrame,
+    "dwas": DataFrame,
+    "essential_skills": DataFrame,
+    "transferable_skills": DataFrame
+}
+
+This helped clarify an important distinction for me: the overall profile is a Python dictionary, while the values inside the dictionary are still Pandas DataFrames.
+
+3. Understanding O*NET Relationships
+While working with the DWA data, I discovered that a task does not necessarily map to only one Detailed Work Activity (DWA).
+A single task can be associated with multiple DWAs.
+This means the tasks-to-DWAs dataset functions as a relationship/bridge table rather than a simple one-to-one mapping.
+I need to preserve this relationship when designing the application's data model.
+
+4. Beginning the Presentation Layer
+I started thinking about how the raw O*NET data should be transformed before eventually being presented to users.
+For example:
+Tasks:
+- Show the Task description
+- Show the Task Type
+- Hide unnecessary O*NET metadata from the user
+
+DWAs:
+- Extract unique DWA Element Names
+- Convert them into a standard Python list
+
+Essential Skills:
+- Filter the dataset to Importance records
+- Sort skills by Importance Data Value in descending order
+- Eventually combine each skill's Importance and Level measurements
+
+Transferable Skills:
+- Eventually present the skill names as a simple alphabetical list
+
+One important lesson from this process is that the raw dataset and the user-facing representation do not need to be identical.
+The service layer can retrieve the raw data, while another layer can transform that data into a cleaner structure for the application.
+What I learned:
+
+- Python dictionaries can contain Pandas DataFrames as values.
+- Pandas filtering works by comparing a DataFrame column to a value.
+- Filtering and sorting are separate operations.
+- O*NET task-to-DWA relationships are one-to-many rather than one-to-one.
+- O*NET Essential Skills contain separate Importance and Level measurements, so I should not flatten or discard either one prematurely.
+- Data retrieval and data presentation should be treated as separate concerns.
+
+Current status:
+The occupation profile retrieval is working successfully.
+DWA transformation is working and now produces a standard Python list of unique DWA names.
+Essential Skills transformation has been started. I successfully filtered the data to Importance records and identified that the next step is sorting those records by Data Value in descending order.
+
+Next session:
+- Finish Essential Skills transformation
+- Match Importance and Level values for each skill
+- Transform Transferable Skills into an alphabetical list
+- Decide on the final structure of the user-facing occupation profile
+- Add tests for the occupation profile transformations
+

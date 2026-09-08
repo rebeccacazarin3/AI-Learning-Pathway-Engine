@@ -127,29 +127,3 @@ def get_transferable_skills_by_code(occupation_code):
 
     return transferable_skills_data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-essential_skills = get_essential_skills_by_code("15-1252.00")
-occupation = get_occupation_by_code("15-1252.00")
-tasks = get_tasks_by_code("15-1252.00")
-dwas = get_dwas_by_code("15-1252.00")
-transferable_skills = get_transferable_skills_by_code("15-1252.00")
-
-print(get_occupation_by_code("15-1256.00"))
-print(get_tasks_by_code("15-1256.00"))
-print(get_dwas_by_code("15-1256.00"))
-print(get_essential_skills_by_code("15-1256.00"))
-print(get_transferable_skills_by_code("15-1256.00"))
