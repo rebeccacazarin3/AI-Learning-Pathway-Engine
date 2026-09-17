@@ -283,3 +283,53 @@ Next session:
 - Decide on the final structure of the user-facing occupation profile
 - Add tests for the occupation profile transformations
 
+## 2026-09-17 — Transferable Skills Transformation & Testing
+
+### Goal
+Separate O*NET transferable-skill transformation logic from the occupation profile service and establish automated checks for the transformed output.
+
+### Work Completed
+- Created `src/data/transformations.py` to hold data transformation logic.
+- Moved `transform_transferable_skills()` out of `services/occupation_profile.py`.
+- Transformation now:
+  - Separates O*NET Importance and Level records.
+  - Renames `Data Value` to `Importance` and `Level`.
+  - Merges Importance and Level by `Element Name`.
+  - Sorts skills by Importance in descending order.
+  - Adds a sequential Rank from 1 onward.
+  - Returns `Rank`, `Element Name`, `Importance`, and `Level`.
+- Added validation for empty transferable-skill input using `ValueError`.
+- Created `src/test_transformations.py`.
+- Added assertions verifying:
+  - The transformed DataFrame is not empty.
+  - 25 transferable skills are returned for Software Developers.
+  - The expected columns are present in the expected order.
+  - Programming is ranked first.
+  - Empty transferable-skill input raises the expected `ValueError`.
+
+### Validation
+Tested with O*NET occupation code `15-1252.00` (Software Developers).
+
+Expected result:
+- 25 transferable skills
+- Programming ranked #1
+- Repairing ranked #25
+- All transformation assertions passed.
+- Empty-input error test passed.
+
+### Debugging Lesson
+Encountered a `NoneType` error because the transformation function had accidentally been duplicated inside `test_transformations.py`. The duplicate function shadowed the imported implementation and omitted its return statement.
+
+Lesson: keep implementation logic in the module being tested; test files should import and exercise that logic rather than redefine it.
+
+### Architectural Note
+The current separation is:
+
+O*NET raw data
+→ data loader
+→ occupation service
+→ occupation profile
+→ data transformations
+→ tests
+
+This keeps retrieval, profile assembly, transformation, and testing responsibilities separate.

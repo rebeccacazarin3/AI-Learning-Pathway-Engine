@@ -12,6 +12,11 @@ def transform_transferable_skills(transferable_skills):
         A transformed DataFrame with Rank, Element Name, Importance, and Level.
     """
 
+    if transferable_skills.empty:
+        raise ValueError(
+            "The transferable skills DataFrame is empty."
+        )
+    
     importance = transferable_skills[
         transferable_skills["Scale Name"] == "Importance"
     ]
@@ -45,7 +50,6 @@ def transform_transferable_skills(transferable_skills):
     )
 
     merged["Rank"] = range(1, len(merged) + 1)
-
 
     return merged[[ "Rank", "Element Name", "Importance", "Level"]]
 
