@@ -141,9 +141,3 @@ print(get_tasks_by_code("15-1252.00"))
 print(get_dwas_by_code("15-1252.00"))
 print(get_essential_skills_by_code("15-1252.00"))
 print(get_transferable_skills_by_code("15-1252.00"))
-
-
-
-
-
-return merged[[ "Rank", "Element Name", "Importance", "Level"]] 

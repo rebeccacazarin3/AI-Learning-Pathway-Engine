@@ -6,6 +6,10 @@ from data.loader import (
     load_transferable_skills,
 )
 
+from models.occupation import Occupation
+
+
+
 def get_occupation_by_code(occupation_code):
     """
     Retrieve occupation data by occupation code.
@@ -126,4 +130,27 @@ def get_transferable_skills_by_code(occupation_code):
         )
 
     return transferable_skills_data
+
+def occupation_model_from_code(occupation_code):
+    """
+    Create an Occupation model from retrieved data.
+
+    Args:
+        occupation_code: The O*NET-SOC code of the occupation.
+    
+    Returns:
+        An instance of the Occupation model populated with O*NET - SOC data, Title, and Description.
+    """
+
+    occupation_data = get_occupation_by_code(occupation_code)
+
+    code = occupation_data.iloc[0]["O*NET-SOC Code"]
+    title = occupation_data.iloc[0]["Title"]
+    description = occupation_data.iloc[0]["Description"]
+
+    return Occupation(
+        code=occupation_code,
+        title=title,
+        description=description
+    )
 

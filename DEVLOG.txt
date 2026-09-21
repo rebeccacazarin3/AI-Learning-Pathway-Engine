@@ -4,9 +4,9 @@
 
 ---
 Proposed Phases
-
+Phase 0 - Occupational Data Pipeline Structuring ← completed
 Phase 1 — Data Discovery & Validation          ← completed
-Phase 2 — Backend Architecture & Data Models
+Phase 2 — Backend Architecture & Data Models   ← completed
 Phase 3 — Occupation Profiling Engine
 Phase 4 — User Skill Modeling
 Phase 5 — Gap Analysis Engine
