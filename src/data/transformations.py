@@ -102,3 +102,39 @@ def transform_essential_skills(essential_skills):
 
     return merged[["Element Name", "Rank", "Level"]]
 
+def transform_tasks(tasks):
+    """
+    Transform the tasks DataFrame to include description of each task and type.
+
+    Args:
+        tasks: DataFrame containing raw tasks data.
+
+    Returns:
+        A transformed DataFrame with description and type for each task.
+    """
+
+    if tasks.empty:
+        raise ValueError(
+            "The tasks DataFrame is empty."
+        )
+
+    tasks = tasks[["Task", "Task Type"]]
+
+    tasks_order = {
+        "Core": 0,
+        "Supplemental": 1
+    }
+
+    fallback_value = 2
+
+    tasks["Task Order"] = tasks["Task Type"].map(
+        tasks_order
+    ).fillna(fallback_value)
+
+    tasks = tasks.sort_values(
+        by=["Task Order", "Task"]
+    )
+
+    tasks = tasks[["Task", "Task Type"]]
+
+    return tasks

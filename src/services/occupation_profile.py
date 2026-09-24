@@ -1,6 +1,8 @@
+
 from data.transformations import (
     transform_essential_skills,
     transform_transferable_skills,
+    transform_tasks
 )
 
 from services.occupation_service import (
@@ -19,7 +21,7 @@ def get_occupation_profile(occupation_code):
 
     return {
         "occupation": occupation_model_from_code(occupation_code),
-        "tasks": get_tasks_by_code(occupation_code),
+        "tasks": transform_tasks (get_tasks_by_code(occupation_code)),
         "dwas": get_dwas_by_code(occupation_code),
         "essential_skills": essential_skills,
         "transferable_skills": transferable_skills,

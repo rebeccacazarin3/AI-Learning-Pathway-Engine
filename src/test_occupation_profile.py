@@ -12,13 +12,7 @@ profile = get_occupation_profile("15-1252.00")
 
 assert isinstance(profile["occupation"], Occupation)
 
-
-
-print("\n--- Tasks ---")
-
-tasks = profile["tasks"][["Task", "Task Type"]]
-
-print(tasks)
+print(tasks := profile["tasks"])
 
 print("\n--- DWAs ---")
 

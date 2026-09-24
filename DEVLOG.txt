@@ -7,7 +7,7 @@ Proposed Phases
 Phase 0 - Occupational Data Pipeline Structuring ← completed
 Phase 1 — Data Discovery & Validation          ← completed
 Phase 2 — Backend Architecture & Data Models   ← completed
-Phase 3 — Occupation Profiling Engine
+Phase 3 — Occupation Profiling Engine          ← in progress
 Phase 4 — User Skill Modeling
 Phase 5 — Gap Analysis Engine
 Phase 6 — Recommendation / Prioritization Logic
@@ -15,6 +15,7 @@ Phase 7 — API / Application Layer
 Phase 8 — Professional UI & Visualization
 Phase 9 — Testing, Evaluation & Deployment
 
+# Phase names and number may change depending on what is needed to complete the engine. 
 ---
 # Phase 1 — O*NET Data Discovery and Evidence Validation
 
@@ -76,7 +77,7 @@ The occupation contained:
 
 ---
 
-## Task → Detailed Work Activity Mapping
+## Task to Detailed Work Activity Mapping
 
 Task-to-DWA data was added to investigate whether occupational tasks could be connected to more granular work activities.
 
