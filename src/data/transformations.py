@@ -149,6 +149,16 @@ def transform_dwas(dwas_data):
         A list containing only unique DWA Element Names.
     """
 
+    if dwas_data.empty:
+        raise ValueError (
+            "The DWA DataFrame is empty."
+        )
+
+
+
+
+
+
 
     dwas = dwas_data["DWA Element Name"].unique().tolist()
     return dwas
