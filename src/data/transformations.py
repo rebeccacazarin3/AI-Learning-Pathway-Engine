@@ -1,7 +1,6 @@
 import pandas as pd
 
 
-
 def transform_transferable_skills(transferable_skills):
     """
     Transform the transferable skills DataFrame to include rank and level.
@@ -138,3 +137,20 @@ def transform_tasks(tasks):
     tasks = tasks[["Task", "Task Type"]]
 
     return tasks
+
+def transform_dwas(dwas_data):
+    """
+    Transform the task-to-DWA DataFrame to contain only unique DWA Element Names.
+ 
+    Args:
+        dwas_data: DataFrame containing task-to-DWA relationship data.
+
+    Returns:
+        A list containing only unique DWA Element Names.
+    """
+
+
+    dwas = dwas_data["DWA Element Name"].unique().tolist()
+    return dwas
+
+

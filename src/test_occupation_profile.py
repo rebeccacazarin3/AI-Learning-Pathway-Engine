@@ -14,11 +14,10 @@ assert isinstance(profile["occupation"], Occupation)
 
 print(tasks := profile["tasks"])
 
-print("\n--- DWAs ---")
-
-dwas = profile["dwas"]["DWA Element Name"].unique().tolist()
-
-print(dwas)
+print("\n--- DWAs ---") 
+assert len(profile["dwas"]) == 18 
+assert len(profile["dwas"]) == len(set(profile["dwas"]))
+print(profile["dwas"])
 
 print("\n--- Essential Skills ---")
 
