@@ -154,13 +154,35 @@ def transform_dwas(dwas_data):
             "The DWA DataFrame is empty."
         )
 
-
-
-
-
-
-
     dwas = dwas_data["DWA Element Name"].unique().tolist()
     return dwas
 
+def transform_software_skills(software_skills):
+    """
+    Group software skills by element name and combine workplace examples.
 
+    Args:
+        software_skills: Raw software skills DataFrame.
+
+    Returns:
+        DataFrame with one row per element name and comma-separated examples.
+    """
+
+    if software_skills.empty:
+        raise ValueError(
+            "The software skills DataFrame is empty."
+        )
+
+    
+    grouped = software_skills.groupby("Element Name")[[ "Workplace Example" , "Hot Technology", "In Demand" ]]
+
+    result = grouped.apply(lambda x: x.to_dict(orient="records")).rename("Workplace Examples").reset_index()
+
+
+
+
+
+
+
+    return result
+   

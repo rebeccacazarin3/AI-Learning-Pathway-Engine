@@ -334,3 +334,54 @@ O*NET raw data
 → tests
 
 This keeps retrieval, profile assembly, transformation, and testing responsibilities separate.
+
+Phase 3 — Software Skills Transformation 
+**Focus:** O*NET software skills data retrieval, transformation, and validation  
+**Status:** In progress
+
+### Accomplished
+
+**1. Validated software skills retrieval**
+- Retrieved software skills for Software Developers using O*NET-SOC code `15-1252.00`.
+- Confirmed that the raw dataset contains 430 records and includes the columns `O*NET-SOC Code`, `Element Name`, `Workplace Example`, `Hot Technology`, and `In Demand`.
+- Verified that filtering by occupation code returns the expected records.
+
+**2. Implemented the initial transformation**
+- Created `transform_software_skills()` in `src/data/transformations.py`.
+- Initially grouped records by `Element Name` and combined workplace examples into comma-separated strings.
+- Tested the output and confirmed that the transformation produced a non-empty DataFrame with unique categories.
+
+**3. Identified a data-integrity concern**
+- Determined that `Hot Technology` and `In Demand` are associated with individual workplace examples.
+- Recognized that combining examples into a single string would discard the relationship between each example and its flags.
+- Decided to retain one row per software category while preserving the full information for each example.
+
+**4. Developed an improved transformation approach**
+- Grouped the data by `Element Name` while retaining `Workplace Example`, `Hot Technology`, and `In Demand`.
+- Used `to_dict(orient="records")` to convert each category's rows into a list of dictionaries.
+- Named the resulting column `Workplace Examples`.
+- Used `reset_index()` to convert the category index into a regular DataFrame column.
+- Confirmed that the intermediate result is a DataFrame with the intended columns: `Element Name` and `Workplace Examples`.
+
+### Testing and validation
+
+- Ran `python src/test_transformations.py` successfully with no assertion errors before beginning the revised transformation inspection.
+- Verified that the revised approach produces a DataFrame rather than a Series.
+- Currently inspecting the contents of an individual category to confirm that every example retains all three fields: `Workplace Example`, `Hot Technology`, and `In Demand`.
+
+### Current state
+
+The improved transformation logic has been explored and tested interactively, but it still needs to be incorporated into `transform_software_skills()` and covered by automated assertions.
+The current automated tests should be rerun after integration.
+
+### Next steps
+
+1. Inspect one category's complete list of example dictionaries.
+2. Update `transform_software_skills()` to use the improved grouping and conversion logic.
+3. Update automated tests to verify the output columns, unique categories, expected dictionary keys, and preserved flag values.
+4. Consider how the transformed software skills should be incorporated into the occupation profile service.
+5. Revisit how the user interface should display technology and demand flags without overwhelming users with raw data.
+
+### Key learning
+The transformation layer should preserve meaningful source relationships instead of discarding information simply to make the output easier to display. 
+The application can simplify presentation later while retaining the underlying data needed for filtering, analysis, and future features.

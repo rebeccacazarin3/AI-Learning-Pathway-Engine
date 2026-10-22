@@ -4,6 +4,7 @@ from data.loader import (
     load_task_statements,
     load_tasks_to_dwas,
     load_transferable_skills,
+    load_software_skills
 )
 
 from models.occupation import Occupation
@@ -154,3 +155,26 @@ def occupation_model_from_code(occupation_code):
         description=description
     )
 
+def get_software_skills_by_code(occupation_code):
+    """
+    Retrieve software skills associated with a specific occupation code.
+
+    Args:
+        occupation_code: The O*NET-SOC code of the occupation to retrieve software skills for.
+
+    Returns:
+        A pandas DataFrame containing the software skills
+        for the specified occupation code.
+    """
+    software_skills_df = load_software_skills()
+
+    software_skills_data = software_skills_df[
+        software_skills_df["O*NET-SOC Code"] == occupation_code
+    ]
+
+    if software_skills_data.empty:
+        raise ValueError(
+            f"No software skills found for occupation code: {occupation_code}"
+        )
+
+    return software_skills_data

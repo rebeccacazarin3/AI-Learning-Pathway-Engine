@@ -1,4 +1,4 @@
-from data.transformations import (transform_transferable_skills, transform_dwas )
+from data.transformations import (transform_transferable_skills, transform_dwas, transform_software_skills)
 import pandas as pd
 from services import occupation_profile
 
@@ -33,3 +33,14 @@ except ValueError as e:
     assert str(e) == "The DWA DataFrame is empty."
 else :
     assert False, "Expected ValueError for empty dwas DataFrame"
+
+raw_software_skills = occupation_profile.get_software_skills_by_code("15-1252.00")
+
+grouped = raw_software_skills.groupby("Element Name")[
+    ["Workplace Example", "Hot Technology", "In Demand"]
+]
+
+result = grouped.apply(lambda x: x.to_dict(orient="records")).rename("Workplace Examples").reset_index()
+
+print(result.iloc[0]["Element Name"])
+print(result.iloc[0]["Workplace Examples"])

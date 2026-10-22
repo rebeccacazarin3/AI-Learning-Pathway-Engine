@@ -12,6 +12,7 @@ from services.occupation_service import (
     occupation_model_from_code,
     get_tasks_by_code,
     get_transferable_skills_by_code,
+    get_software_skills_by_code
 )
 
 def get_occupation_profile(occupation_code):
