@@ -157,15 +157,18 @@ def transform_dwas(dwas_data):
     dwas = dwas_data["DWA Element Name"].unique().tolist()
     return dwas
 
+
 def transform_software_skills(software_skills):
     """
-    Group software skills by element name and combine workplace examples.
+    Group software skills by element name while preserving example flags.
 
     Args:
         software_skills: Raw software skills DataFrame.
 
     Returns:
-        DataFrame with one row per element name and comma-separated examples.
+        DataFrame with one row per element name and a list of
+        workplace-example dictionaries, including technology and
+        demand flags.
     """
 
     if software_skills.empty:
@@ -173,16 +176,14 @@ def transform_software_skills(software_skills):
             "The software skills DataFrame is empty."
         )
 
-    
-    grouped = software_skills.groupby("Element Name")[[ "Workplace Example" , "Hot Technology", "In Demand" ]]
+    grouped = software_skills.groupby("Element Name")[
+        ["Workplace Example", "Hot Technology", "In Demand"]
+    ]
 
-    result = grouped.apply(lambda x: x.to_dict(orient="records")).rename("Workplace Examples").reset_index()
-
-
-
-
-
-
+    result = (
+        grouped.apply(lambda x: x.to_dict(orient="records"))
+        .rename("Workplace Examples")
+        .reset_index()
+    )
 
     return result
-   
