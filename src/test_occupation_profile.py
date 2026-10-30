@@ -1,68 +1,78 @@
+import unittest
+import pandas as pd
 from services.occupation_profile import (
     get_occupation_profile,
 )
 
-from services.occupation_service import (
-    occupation_model_from_code,
-)
-
 from models.occupation import Occupation
 
-profile = get_occupation_profile("15-1252.00")
+class TestOccupationProfile(unittest.TestCase):
 
-assert isinstance(profile["occupation"], Occupation)
+    def test_invalid_occupation_profile(self):
+        with self.assertRaises(ValueError):
+            get_occupation_profile("INVALID")
 
-print(tasks := profile["tasks"])
+    def test_valid_occupation_profile(self):
+        profile = get_occupation_profile("15-1252.00")
 
-print("\n--- DWAs ---")
-assert len(profile["dwas"]) == 18
-assert len(profile["dwas"]) == len(set(profile["dwas"]))
-print(profile["dwas"])
+        self.assertIsInstance(profile["occupation"], Occupation)
+        self.assertIn("tasks", profile)
+        self.assertIn("dwas", profile)
+        self.assertIn("essential_skills", profile)
+        self.assertIn("transferable_skills", profile)
+        self.assertIn("software_skills", profile)
 
-print("\n--- Essential Skills ---")
+    def test_dwas_count_and_uniqueness(self):
+        profile = get_occupation_profile("15-1252.00")
+        self.assertEqual(len(profile["dwas"]), 18)
+        self.assertEqual(len(profile["dwas"]), len(set(profile["dwas"])))
 
-print(profile["essential_skills"])
+    def test_essential_skills(self):
+        profile = get_occupation_profile("15-1252.00")
+        self.assertIn("essential_skills", profile)
+        self.assertIsInstance(profile["essential_skills"], pd.DataFrame)
+        self.assertFalse(profile["essential_skills"].empty)
 
-print("\n--- Transferable Skills ---")
+    def test_transferable_skills(self):
+        profile = get_occupation_profile("15-1252.00")
+        self.assertIn("transferable_skills", profile)
+        self.assertIsInstance(profile["transferable_skills"], pd.DataFrame)
+        self.assertFalse(profile["transferable_skills"].empty)
 
-print(profile["transferable_skills"])
+    def test_software_skills(self):
+        profile = get_occupation_profile("15-1252.00")
+        self.assertIn("software_skills", profile)
+        self.assertIsInstance(profile["software_skills"], pd.DataFrame)
+        self.assertFalse(profile["software_skills"].empty)
+        self.assertEqual(len(profile["software_skills"]), 67)
+        self.assertEqual(
+            set(profile["software_skills"].columns),
+            {"Element Name", "Workplace Examples"}
+        )
 
-occupation = occupation_model_from_code("15-1252.00")
+        total_examples = sum(
+            len(examples)
+            for examples in profile["software_skills"]["Workplace Examples"]
+        )
+        self.assertEqual(total_examples, 430)
 
-print(occupation)
-print(type(occupation))
+        for _, row in profile["software_skills"].iterrows():
+            self.assertIsInstance(row["Workplace Examples"], list)
 
-print("\n--- Software Skills ---")
-assert "software_skills" in profile
-assert not profile["software_skills"].empty
-assert len(profile["software_skills"]) == 67
-total_examples = sum(
-    len(examples)
-    for examples in profile["software_skills"]["Workplace Examples"]
-)
+            for example in row["Workplace Examples"]:
+                self.assertIsInstance(example, dict)
 
-assert total_examples == 430, (
-    f"Expected 430 workplace examples, got {total_examples}"
-)
+                self.assertIn(example["Hot Technology"], ["Y", "N"])
+                self.assertIn(example["In Demand"], ["Y", "N"])
 
-for index, row in profile["software_skills"].iterrows():
-    assert isinstance(row["Workplace Examples"], list)
+                self.assertEqual(
+                    set(example.keys()),
+                    {"Workplace Example", "Hot Technology", "In Demand"},
+                    "Expected each workplace example to contain all three fields"
+                )
 
-    for example in row["Workplace Examples"]:
-        assert example["Hot Technology"] in ["Y", "N"]
-        assert example["In Demand"] in ["Y", "N"]
-        assert set(example.keys()) == {
-            "Workplace Example",
-            "Hot Technology",
-            "In Demand"
-        }, "Expected each workplace example to contain all three fields"
+if __name__ == "__main__":
+    unittest.main()
 
-print(f"Software categories: {len(profile['software_skills'])}")
 
-total_examples = sum(
-    len(examples)
-    for examples in profile["software_skills"]["Workplace Examples"]
-)
 
-print(f"Workplace examples: {total_examples}")
-print("Occupation profile integration tests passed.")

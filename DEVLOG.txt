@@ -385,3 +385,6 @@ The current automated tests should be rerun after integration.
 ### Key learning
 The transformation layer should preserve meaningful source relationships instead of discarding information simply to make the output easier to display. 
 The application can simplify presentation later while retaining the underlying data needed for filtering, analysis, and future features.
+
+## Milestone 
+Software-skills transformation is integrated into the occupation profile, validated by tests, committed, and pushed to GitHub
