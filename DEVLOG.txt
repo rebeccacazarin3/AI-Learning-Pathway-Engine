@@ -386,5 +386,50 @@ The current automated tests should be rerun after integration.
 The transformation layer should preserve meaningful source relationships instead of discarding information simply to make the output easier to display. 
 The application can simplify presentation later while retaining the underlying data needed for filtering, analysis, and future features.
 
-## Milestone 
+## Milestone
 Software-skills transformation is integrated into the occupation profile, validated by tests, committed, and pushed to GitHub
+
+## 2026-11-13 Development Progress
+
+### User Skill Modeling: Skill Conflict Review and Resolution
+
+**Status: Core review-resolution logic implemented and tested.**
+
+Continued development of the user skill modeling service in `src/services/user_profile.py`.
+
+#### Implemented
+- Skill name normalization using `strip()` and `casefold()` to support consistent comparisons.
+- Skill submission classification into `NEW`, `DUPLICATE`, and `CONFLICT`.
+- Conflict review creation for skills submitted with a different proficiency level.
+- New skill addition to the user's profile.
+- Human-readable conflict messages displaying existing and proposed proficiency levels.
+- Conflict review resolution with three possible statuses:
+  - `PENDING`
+  - `ACCEPTED`
+  - `DECLINED`
+
+#### Review Resolution Behavior
+- **Accepted:** Updates the existing skill's proficiency to the proposed proficiency.
+- **Declined:** Preserves the existing skill's proficiency.
+- **Already resolved:** Rejects attempts to resolve a review more than once.
+- **Invalid decision:** Rejects `PENDING` as a resolution decision and prevents unintended changes to the profile or review.
+
+#### Testing
+Successfully tested the review-resolution scenarios:
+- Accepted review
+- Declined review
+- Attempt to resolve an already-resolved review
+- Attempt to resolve using an invalid decision
+
+All tests passed.
+
+#### Engineering Considerations
+- Prevents duplicate skill entries when proficiency conflicts occur.
+- Preserves the existing skill until a conflict is explicitly resolved.
+- Uses Enum values to represent skill proficiency and review status.
+- Uses exception handling to reject invalid operations.
+
+#### Next Steps
+- Review the complete skill-submission workflow.
+- Verify that classification, conflict detection, review creation, and resolution work together correctly.
+- Continue toward the skill-gap analysis component.

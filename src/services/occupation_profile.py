@@ -33,4 +33,3 @@ def get_occupation_profile(occupation_code):
         "software_skills": software_skills
     }
 
-
