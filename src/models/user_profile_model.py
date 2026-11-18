@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from models.skill import Skill
+from models.user_skill import UserSkill
 
 
 @dataclass
 class UserProfile:
-    skills: list[Skill] = field(default_factory=list)
+    skills: list[UserSkill] = field(default_factory=list)

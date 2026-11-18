@@ -1,14 +1,14 @@
 from models.skill_check_result import SkillCheckResult
-from models.skill import Skill
+from models.user_skill import UserSkill
 from models.proficiency import ProficiencyLevel
-from skill_check_status import SkillCheckStatus
+from models.skill_check_status import SkillCheckStatus
 from services.user_profile import generate_conflict_message
 import pytest
 
 
 def test_skill_check_result_new():
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
@@ -24,14 +24,14 @@ def test_skill_check_result_new():
 
 
 def test_skill_check_result_duplicate():
-    existing_skill = Skill(
-        name="Python",
+    existing_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
 
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -48,14 +48,14 @@ def test_skill_check_result_duplicate():
 
 
 def test_skill_check_result_conflict():
-    existing_skill = Skill(
-        name="Python",
+    existing_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
 
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.ADVANCED,
         source="Self-assessment"
     )
@@ -72,14 +72,14 @@ def test_skill_check_result_conflict():
 
 
 def test_generate_conflict_message():
-    existing_profile = Skill(
-        name="Python",
+    existing_profile = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
 
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -96,13 +96,13 @@ def test_generate_conflict_message():
     message = generate_conflict_message(result_message_check)
 
     # Verify that the message contains the skill name and both proficiency levels.
-    assert "Python" in message
+    assert "SKL-001" in message
     assert "Beginner" in message
     assert "Intermediate" in message
 
 def test_generate_conflict_message_rejects_new_skill():
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
@@ -116,8 +116,8 @@ def test_generate_conflict_message_rejects_new_skill():
         generate_conflict_message(new_skill)
 
 def test_generate_conflict_message_rejects_duplicate_skill():
-    duplicate_skill = Skill(
-        name="Python",
+    duplicate_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )

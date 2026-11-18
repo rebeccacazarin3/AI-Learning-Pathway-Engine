@@ -1,15 +1,15 @@
-from models.skill import Skill
+from models.user_skill import UserSkill
 from models.proficiency import ProficiencyLevel
 
 
-skill = Skill(
-    name="Python",
+skill = UserSkill(
+    skill_id="SKL-001",
     proficiency=ProficiencyLevel.INTERMEDIATE,
     source="user"
 )
 
 print(skill)
-print(skill.name)
+print(skill.skill_id)
 print(skill.proficiency)
 print(skill.proficiency.value)
 print(skill.source)

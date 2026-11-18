@@ -3,9 +3,9 @@ from models import skill
 from models.review_status import ReviewStatus
 from services.user_profile import normalize_skill_name, classify_skill_submission, create_skill_review, add_new_skill, resolve_skill_review
 from models.user_profile_model import UserProfile
-from models.skill import Skill
+from models.user_skill import UserSkill
 from models.proficiency import ProficiencyLevel
-from skill_check_status import SkillCheckStatus
+from models.skill_check_status import SkillCheckStatus
 from models.skill_review import SkillReview
 
 
@@ -19,11 +19,11 @@ def test_normalize_skill_name():
 
 def test_classify_skill_submission_new():
     profile_new = UserProfile()
-    skills = [Skill(
-        name="Python",
+    skill= UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
-    )]
+    )
     
     result = classify_skill_submission(profile_new, skill)
     assert result.status == SkillCheckStatus.NEW
@@ -33,15 +33,15 @@ def test_classify_skill_submission_new():
 
 def test_classify_skill_submission_duplicate():
     profile_duplicate = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )]
     )
 
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
@@ -53,15 +53,15 @@ def test_classify_skill_submission_duplicate():
 
 def test_classify_skill_submission_conflict():
     profile_conflict = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )]
     )
     
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -76,15 +76,15 @@ def test_classify_skill_submission_conflict():
 
 def test_create_skill_review():
     profile_conflict = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )]
     )
     
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -107,8 +107,8 @@ def test_create_skill_review_rejects_new_skill():
         skills = []
     )
     #Create a proposed skill that is new such as Python with proficiency level BEGINNER
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
@@ -124,15 +124,15 @@ def test_create_skill_review_rejects_new_skill():
 def test_create_skill_review_rejects_duplicate_skill():
     #create a profile with an existing skill of Intermediate Python
     profile_duplicate = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.INTERMEDIATE,
             source="Self-assessment"
         )]
     )
     #Create a proposed skill that is a duplicate such as Python with proficiency level INTERMEDIATE
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -148,15 +148,15 @@ def test_create_skill_review_rejects_duplicate_skill():
 def test_add_new_skill():
     #create a profile
     profile_new_skill = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.INTERMEDIATE,
             source="Self-assessment"
         )]
     )
     # Create a proposed skill
-    proposed_skill = Skill(
-        name="Machine Learning",
+    proposed_skill = UserSkill(
+        skill_id="SKL-002",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
@@ -173,15 +173,15 @@ def test_add_new_skill():
 def test_add_new_skill_rejects_duplicate():
     #create a duplicate profile
     profile_duplicate = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.INTERMEDIATE,
             source="Self-assessment"
         )]
     )
     # Create a proposed skill duplicate
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -199,15 +199,15 @@ def test_add_new_skill_rejects_duplicate():
 def test_add_new_skill_rejects_conflict():
     #create a conflict profile
     profile_conflict = UserProfile(
-        skills = [Skill(
-            name="Python",
+        skills = [UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )]
     )
     # Create a proposed skill conflict
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.INTERMEDIATE,
         source="Self-assessment"
     )
@@ -224,14 +224,14 @@ def test_add_new_skill_rejects_conflict():
 
 def test_resolve_skill_review():
     #Create a profile with python of beginner
-    existing_skill = Skill(
-        name="Python",
+    existing_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
     #Create a profile with python advanced
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.ADVANCED,
         source="Self-assessment"
     )
@@ -259,14 +259,14 @@ def test_resolve_skill_review():
 
 def test_resolve_skill_review_declined():
     #Create a profile with python of beginner
-    existing_skill = Skill(
-        name="Python",
+    existing_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.BEGINNER,
         source="Self-assessment"
     )
     #Create a profile with python advanced
-    proposed_skill = Skill(
-        name="Python",
+    proposed_skill = UserSkill(
+        skill_id="SKL-001",
         proficiency=ProficiencyLevel.ADVANCED,
         source="Self-assessment"
     )
@@ -294,14 +294,14 @@ def test_resolve_skill_review_declined():
 
 def test_resolve_skill_review_rejects_non_pending():
         #Create a profile with python of beginner
-        existing_skill = Skill(
-            name="Python",
+        existing_skill = UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )
         #Create a profile with python advanced
-        proposed_skill = Skill(
-            name="Python",
+        proposed_skill = UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.ADVANCED,
             source="Self-assessment"
         )
@@ -330,14 +330,14 @@ def test_resolve_skill_review_rejects_non_pending():
 
 def test_resolve_skill_review_rejects_invalid_decision():
     #Create a profile with python of beginner
-        existing_skill = Skill(
-            name="Python",
+        existing_skill = UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.BEGINNER,
             source="Self-assessment"
         )
         #Create a profile with python advanced
-        proposed_skill = Skill(
-            name="Python",
+        proposed_skill = UserSkill(
+            skill_id="SKL-001",
             proficiency=ProficiencyLevel.ADVANCED,
             source="Self-assessment"
         )

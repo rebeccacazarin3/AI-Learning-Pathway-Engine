@@ -6,6 +6,8 @@ venv/
 # Python cache
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.venv/
 
 # Raw source data
 data/raw/

@@ -1,12 +1,11 @@
-
 from dataclasses import dataclass
 from models.review_status import ReviewStatus
-from models.skill import Skill
+from models.user_skill import UserSkill
 
 @dataclass
 class SkillReview:
-    existing_skill: Skill
-    proposed_skill: Skill
+    existing_skill: UserSkill
+    proposed_skill: UserSkill
     category: str
     reason: str
     review_status: ReviewStatus = ReviewStatus.PENDING

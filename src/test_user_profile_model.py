@@ -1,13 +1,13 @@
 from models.user_profile_model import UserProfile
-from models.skill import Skill
+from models.user_skill import UserSkill
 from models.proficiency import ProficiencyLevel
 
 
 profile1 = UserProfile()
 profile2 = UserProfile()
 
-python_skill = Skill(
-    name="Python",
+python_skill = UserSkill(
+    skill_id="SKL-001",
     proficiency=ProficiencyLevel.INTERMEDIATE,
     source="user"
 )

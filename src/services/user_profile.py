@@ -1,7 +1,7 @@
-from models.skill import Skill
+from models.user_skill import UserSkill
 from models.skill_check_result import SkillCheckResult
 from models.user_profile_model import UserProfile
-from skill_check_status import SkillCheckStatus
+from models.skill_check_status import SkillCheckStatus
 from models.skill_review import SkillReview
 from models.review_status import ReviewStatus
 
@@ -17,9 +17,9 @@ def normalize_skill_name(skill_name: str) -> str:
     """
     return skill_name.strip().casefold()
 
-def classify_skill_submission(profile : UserProfile, proposed_skill : Skill) -> SkillCheckResult:
+def classify_skill_submission(profile : UserProfile, proposed_skill : UserSkill) -> SkillCheckResult:
     for existing_skill in profile.skills:
-        if normalize_skill_name(existing_skill.name) == normalize_skill_name(proposed_skill.name):
+        if normalize_skill_name(existing_skill.skill_id) == normalize_skill_name(proposed_skill.skill_id):
             if existing_skill.proficiency == proposed_skill.proficiency:
                 return SkillCheckResult(
                     status=SkillCheckStatus.DUPLICATE,
@@ -84,7 +84,7 @@ def generate_conflict_message(skill_check_result) -> str:
     
     #Retrive the skill name and the both proficiency levels from the SkillCheckResult
     
-    skill_name = skill_check_result.existing_skill.name
+    skill_name = skill_check_result.existing_skill.skill_id
     existing_proficiency = skill_check_result.existing_skill.proficiency.value
     proposed_proficiency = skill_check_result.proposed_skill.proficiency.value
 

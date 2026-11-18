@@ -1,9 +1,10 @@
 from dataclasses import dataclass
-from models.proficiency import ProficiencyLevel
+
 
 @dataclass
 class Skill:
+    skill_id: str
     name: str
-    proficiency: ProficiencyLevel
-    source: str
-
+    aliases: list[str]
+    description: str
+    category: str
