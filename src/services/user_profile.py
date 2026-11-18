@@ -5,21 +5,10 @@ from models.skill_check_status import SkillCheckStatus
 from models.skill_review import SkillReview
 from models.review_status import ReviewStatus
 
-def normalize_skill_name(skill_name: str) -> str:
-    """
-    Normalize the skill name by removing leading/trailing whitespace and converting to lowercase.
-    
-    Args:
-    skill_name (str): The skill name to normalize.
-
-    Returns:
-    str: The normalized skill name.
-    """
-    return skill_name.strip().casefold()
 
 def classify_skill_submission(profile : UserProfile, proposed_skill : UserSkill) -> SkillCheckResult:
     for existing_skill in profile.skills:
-        if normalize_skill_name(existing_skill.skill_id) == normalize_skill_name(proposed_skill.skill_id):
+        if existing_skill.skill_id == proposed_skill.skill_id:
             if existing_skill.proficiency == proposed_skill.proficiency:
                 return SkillCheckResult(
                     status=SkillCheckStatus.DUPLICATE,

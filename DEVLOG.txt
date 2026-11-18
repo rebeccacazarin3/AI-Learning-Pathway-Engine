@@ -433,3 +433,117 @@ All tests passed.
 - Review the complete skill-submission workflow.
 - Verify that classification, conflict detection, review creation, and resolution work together correctly.
 - Continue toward the skill-gap analysis component.
+
+# Sub-Phase: Skill Model Separation and Canonical ID Refactor
+
+**Date:** November 18, 2026  
+**Milestone:** Separation of Canonical Skills and User Skills
+
+## 1. Objective
+
+- Refactor the skill data models to distinguish canonical skill definitions from individual users' proficiency records.
+- The previous design used one `Skill` model for both purposes. This created potential ambiguity between a skill's identity and a user's relationship to that skill.
+- The objective was to establish a canonical skill identity that could be referenced consistently across multiple user profiles.
+
+## 2. Architectural Changes
+
+### Canonical Skill Model
+
+Redefined `models/skill.py` to represent skills independently of individual users.
+
+Fields:
+- `skill_id`: Unique, stable identifier assigned by the Skill Registry.
+- `name`: Official skill name.
+- `aliases`: Alternative names and common spellings.
+- `description`: Definition of the skill.
+- `category`: Skill classification.
+
+The registry will eventually generate IDs when proposed skills receive approval and are registered.
+
+### UserSkill Model
+
+Created `models/user_skill.py` by separating the original user-specific `Skill` model and renaming it to `UserSkill`.
+
+Updated fields:
+- `skill_id`: Reference to the canonical skill.
+- `proficiency`: User's proficiency level.
+- `source`: Origin of the proficiency information.
+
+Removed `name` because the canonical Skill Registry will serve as the single source of truth for skill names.
+
+### Dependent Model Updates
+
+Updated the following models to reference `UserSkill`:
+
+- `UserProfile`
+- `SkillCheckResult`
+- `SkillReview`
+
+Updated corresponding service imports, type annotations, and test fixtures.
+
+## 3. User Profile Service Refactor
+
+Updated `classify_skill_submission()` to compare canonical `skill_id` values rather than normalized skill names.
+The classification logic retains three possible outcomes:
+
+| Status | Condition |
+|---|---|
+| NEW | No matching canonical skill ID exists in the profile. |
+| DUPLICATE | Matching skill ID and proficiency already exist. |
+| CONFLICT | Matching skill ID exists, but the submitted proficiency differs. |
+
+Removed `normalize_skill_name()` and its associated usage because name resolution will become the responsibility of the Skill Registry.
+This establishes a clearer separation of concerns:
+
+- Skill Registry: Skill identity, name resolution, and aliases.
+- User Profile Service: User-specific skill records and proficiency management.
+
+## 4. Testing and Validation
+
+- Updated existing test fixtures to construct `UserSkill` objects using `skill_id`.
+- Updated model and service references.
+- Removed obsolete name-normalization dependencies.
+- Executed the full test suite using `python -m pytest -v`.
+
+**Result: All tests passing.**
+
+The existing user-profile classification and conflict-review workflows remain functional following the refactor.
+
+## 5. Architectural Decisions
+
+The following decisions were established:
+
+1. Canonical skills and user-specific skill records remain separate models.
+2. The Skill Registry owns canonical skill ID generation.
+3. Canonical IDs are stable and independent of skill names.
+4. User profiles reference canonical skills through `skill_id`.
+5. Name normalization and alias resolution belong to the Skill Registry, not the User Profile Service.
+6. The application continues to follow a modular monolith architecture.
+
+## 6. Outstanding Work
+
+The following functionality has not yet been implemented:
+
+- Skill Registry service.
+- Canonical skill lookup by name and alias.
+- Canonical skill ID generation.
+- Registry integration with user skill submissions.
+- Skill proposal and approval workflows.
+- Governance controls for registering new canonical skills.
+
+## 7. Next Development Milestone
+
+**Build the Skill Registry Service.**
+
+The next implementation phase will establish how submitted skill names are resolved to canonical skill records before being passed to the User Profile Service.
+The intended workflow:
+
+1. Receive a submitted skill name.
+2. Search canonical skill names and aliases.
+3. Resolve the matching canonical skill.
+4. Retrieve its `skill_id`.
+5. Create or classify the corresponding `UserSkill`.
+
+Unknown skills will eventually enter the AI-assisted proposal and governance workflow rather than being automatically registered.
+---
+**Milestone Status:** Completed — Model separation and ID-based classification validated by the existing test suite.

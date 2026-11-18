@@ -1,21 +1,12 @@
 import pytest
 from models import skill
 from models.review_status import ReviewStatus
-from services.user_profile import normalize_skill_name, classify_skill_submission, create_skill_review, add_new_skill, resolve_skill_review
+from services.user_profile import classify_skill_submission, create_skill_review, add_new_skill, resolve_skill_review
 from models.user_profile_model import UserProfile
 from models.user_skill import UserSkill
 from models.proficiency import ProficiencyLevel
 from models.skill_check_status import SkillCheckStatus
 from models.skill_review import SkillReview
-
-
-def test_normalize_skill_name():
-    assert normalize_skill_name("Python") == "python"
-    assert normalize_skill_name(" PYTHON ") == "python"
-    assert normalize_skill_name("Machine Learning") == "machine learning"
-    assert normalize_skill_name("MachineLearning") == "machinelearning"
-    assert normalize_skill_name("SQL") == "sql"
-
 
 def test_classify_skill_submission_new():
     profile_new = UserProfile()
