@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from models.proficiency import ProficiencyLevel
+from ai_learning_pathway.models.proficiency import ProficiencyLevel
 
 @dataclass
 class UserSkill:

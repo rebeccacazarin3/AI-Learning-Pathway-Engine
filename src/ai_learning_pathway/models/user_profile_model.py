@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from models.user_skill import UserSkill
+from ai_learning_pathway.models.user_skill import UserSkill
 
 
 @dataclass

@@ -1,5 +1,5 @@
-from services.occupation_service import get_occupation_by_code
-from data.processed.loader import (
+from ai_learning_pathway.services.occupation_service import get_occupation_by_code
+from ai_learning_pathway.data.loader import (
     load_essential_skills,
     load_occupations,
     load_task_statements,

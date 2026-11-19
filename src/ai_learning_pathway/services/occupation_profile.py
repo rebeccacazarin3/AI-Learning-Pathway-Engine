@@ -1,5 +1,5 @@
 
-from data.processed.transformations import (
+from ai_learning_pathway.data.transformations import (
     transform_essential_skills,
     transform_transferable_skills,
     transform_tasks,
@@ -7,7 +7,7 @@ from data.processed.transformations import (
     transform_software_skills
 )
 
-from services.occupation_service import (
+from ai_learning_pathway.services.occupation_service import (
     get_dwas_by_code,
     get_essential_skills_by_code,
     occupation_model_from_code,

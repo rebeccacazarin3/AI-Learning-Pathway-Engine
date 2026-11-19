@@ -1,6 +1,6 @@
-from data.processed.transformations import (transform_transferable_skills, transform_dwas, transform_software_skills)
+from ai_learning_pathway.data.transformations import (transform_transferable_skills, transform_dwas, transform_software_skills)
 import pandas as pd
-from services import occupation_profile
+from ai_learning_pathway.services import occupation_profile
 
 raw_skills = occupation_profile.get_transferable_skills_by_code("15-1252.00")
 result = transform_transferable_skills(raw_skills)

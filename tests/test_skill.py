@@ -1,5 +1,5 @@
-from models.user_skill import UserSkill
-from models.proficiency import ProficiencyLevel
+from ai_learning_pathway.models.user_skill import UserSkill
+from ai_learning_pathway.models.proficiency import ProficiencyLevel
 
 
 skill = UserSkill(

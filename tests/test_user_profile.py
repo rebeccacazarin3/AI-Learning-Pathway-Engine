@@ -1,12 +1,12 @@
 import pytest
-from models import skill
-from models.review_status import ReviewStatus
-from services.user_profile import classify_skill_submission, create_skill_review, add_new_skill, resolve_skill_review
-from models.user_profile_model import UserProfile
-from models.user_skill import UserSkill
-from models.proficiency import ProficiencyLevel
-from models.skill_check_status import SkillCheckStatus
-from models.skill_review import SkillReview
+from ai_learning_pathway.models import skill
+from ai_learning_pathway.models.review_status import ReviewStatus
+from ai_learning_pathway.services.user_profile import classify_skill_submission, create_skill_review, add_new_skill, resolve_skill_review
+from ai_learning_pathway.models.user_profile_model import UserProfile
+from ai_learning_pathway.models.user_skill import UserSkill
+from ai_learning_pathway.models.proficiency import ProficiencyLevel
+from ai_learning_pathway.models.skill_check_status import SkillCheckStatus
+from ai_learning_pathway.models.skill_review import SkillReview
 
 def test_classify_skill_submission_new():
     profile_new = UserProfile()

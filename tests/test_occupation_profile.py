@@ -1,10 +1,10 @@
 import unittest
 import pandas as pd
-from services.occupation_profile import (
+from ai_learning_pathway.services.occupation_profile import (
     get_occupation_profile,
 )
 
-from models.occupation import Occupation
+from ai_learning_pathway.models.occupation import Occupation
 
 class TestOccupationProfile(unittest.TestCase):
 

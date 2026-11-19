@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from models.review_status import ReviewStatus
-from models.user_skill import UserSkill
+from ai_learning_pathway.models.review_status import ReviewStatus
+from ai_learning_pathway.models.user_skill import UserSkill
 
 @dataclass
 class SkillReview:

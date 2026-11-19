@@ -1,4 +1,4 @@
-from services.occupation_service import get_software_skills_by_code
+from ai_learning_pathway.services.occupation_service import get_software_skills_by_code
 
 software_skills = get_software_skills_by_code("15-1252.00")
 

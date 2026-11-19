@@ -1,4 +1,4 @@
-from models.proficiency import ProficiencyLevel
+from ai_learning_pathway.models.proficiency import ProficiencyLevel
 
 
 # TODO: Define and validate the numerical representation

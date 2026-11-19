@@ -1,9 +1,9 @@
-from models.user_skill import UserSkill
-from models.skill_check_result import SkillCheckResult
-from models.user_profile_model import UserProfile
-from models.skill_check_status import SkillCheckStatus
-from models.skill_review import SkillReview
-from models.review_status import ReviewStatus
+from ai_learning_pathway.models.user_skill import UserSkill
+from ai_learning_pathway.models.skill_check_result import SkillCheckResult
+from ai_learning_pathway.models.user_profile_model import UserProfile
+from ai_learning_pathway.models.skill_check_status import SkillCheckStatus
+from ai_learning_pathway.models.skill_review import SkillReview
+from ai_learning_pathway.models.review_status import ReviewStatus
 
 
 def classify_skill_submission(profile : UserProfile, proposed_skill : UserSkill) -> SkillCheckResult:

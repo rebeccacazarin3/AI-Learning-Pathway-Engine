@@ -1,4 +1,4 @@
-from data.processed.loader import (
+from ai_learning_pathway.data.loader import (
     load_occupations,
     load_task_statements,
     load_essential_skills,

@@ -1,8 +1,8 @@
-from models.skill_check_result import SkillCheckResult
-from models.user_skill import UserSkill
-from models.proficiency import ProficiencyLevel
-from models.skill_check_status import SkillCheckStatus
-from services.user_profile import generate_conflict_message
+from ai_learning_pathway.models.skill_check_result import SkillCheckResult
+from ai_learning_pathway.models.user_skill import UserSkill
+from ai_learning_pathway.models.proficiency import ProficiencyLevel
+from ai_learning_pathway.models.skill_check_status import SkillCheckStatus
+from ai_learning_pathway.services.user_profile import generate_conflict_message
 import pytest
 
 
