@@ -1,5 +1,5 @@
 from services.occupation_service import get_occupation_by_code
-from data.loader import (
+from data.processed.loader import (
     load_essential_skills,
     load_occupations,
     load_task_statements,

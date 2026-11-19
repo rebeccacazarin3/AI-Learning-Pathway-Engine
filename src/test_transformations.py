@@ -1,4 +1,4 @@
-from data.transformations import (transform_transferable_skills, transform_dwas, transform_software_skills)
+from data.processed.transformations import (transform_transferable_skills, transform_dwas, transform_software_skills)
 import pandas as pd
 from services import occupation_profile
 

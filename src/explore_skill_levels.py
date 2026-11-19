@@ -1,7 +1,7 @@
 import pandas as pd
 
-from data.loader import load_essential_skills
-from data.loader import load_transferable_skills
+from data.processed.loader import load_essential_skills
+from data.processed.loader import load_transferable_skills
 
 essential_skills = load_essential_skills()
 transferable_skills = load_transferable_skills()

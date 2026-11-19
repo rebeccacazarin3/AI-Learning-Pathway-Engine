@@ -1,4 +1,4 @@
-from data.loader import (
+from data.processed.loader import (
     load_essential_skills,
     load_occupations,
     load_task_statements,
