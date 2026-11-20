@@ -547,3 +547,48 @@ The intended workflow:
 Unknown skills will eventually enter the AI-assisted proposal and governance workflow rather than being automatically registered.
 ---
 **Milestone Status:** Completed — Model separation and ID-based classification validated by the existing test suite.
+
+## 26-11-20 — Project Organization and Package Configuration
+
+### Objective
+Reorganize the application into a structured Python package while preserving existing functionality and test coverage.
+
+### Changes Made
+
+**1. Reorganized the project structure**
+- Created `src/ai_learning_pathway/` as the main application package.
+- Organized application code into `data/`, `models/`, and `services/` subpackages.
+- Added `__init__.py` files to establish Python packages.
+- Moved exploratory scripts into the root-level `exploratory/` directory.
+- Kept raw and processed datasets outside the application source directory.
+- Kept the test suite in the root-level `tests/` directory.
+
+**2. Configured Python packaging**
+- Created `pyproject.toml`.
+- Configured `setuptools` as the build backend.
+- Defined project metadata, version `0.1.0`, and minimum Python version `3.13`.
+- Configured package discovery to locate `ai_learning_pathway` under `src/`.
+- Installed the project in editable mode using `python -m pip install -e .`.
+
+**3. Corrected data path resolution**
+- Updated `PROJECT_ROOT` in `src/ai_learning_pathway/data/loader.py`.
+- Changed the parent directory reference from `parents[2]` to `parents[3]` to correctly resolve the repository root.
+- Verified that `RAW_DATA_DIR` points to the root-level `data/raw/` directory.
+
+### Verification
+
+- Confirmed Python can import `ai_learning_pathway` from the correct source directory.
+- Confirmed the raw data directory exists and resolves correctly.
+- Ran the full test suite using `python -m pytest -v`.
+- **Result: All 25 tests passed.**
+
+### Key Concepts Learned
+- Python package structure and the `src/` layout.
+- TOML syntax and the purpose of `pyproject.toml`.
+- Build systems, build backends, and package discovery.
+- Editable package installation.
+- Absolute filesystem paths and `pathlib.Path`.
+- Regression testing after structural refactoring.
+
+### Outcome
+The project now has a structured, installable Python package. Existing functionality remains intact, and all 25 tests pass following the reorganization.

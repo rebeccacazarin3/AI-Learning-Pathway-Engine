@@ -12,6 +12,11 @@ git commit -m ""
 git push
 git diff --stat  - tells how much code was changed
 git log -1 --oneline - most recent commit contents
+git status --short
+# M — modified tracked file.
+# A — newly added file.
+# D — deleted file.
+# ?? — untracked file.
 
 python -m pytest -v
 

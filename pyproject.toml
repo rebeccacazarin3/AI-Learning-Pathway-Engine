@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-learning-pathway-engine"
+version = "0.1.0"
+description = "An AI-powered learning pathway engine"
+requires-python = ">=3.13"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ai_learning_pathway*"]

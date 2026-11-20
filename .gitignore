@@ -20,3 +20,7 @@ Need Codes.txt
 # OS files
 .DS_Store
 Thumbs.db
+
+# Files I dont want others to see
+pyproject_toml.md 
+*.egg-info/
